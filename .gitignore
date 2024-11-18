@@ -1,0 +1,14 @@
+# Editors
+.vscode/
+.idea/
+
+# Old Prototype
+proto/
+
+# Cargo
+target/
+Cargo.lock
+
+# Coverage
+CoverageReport*
+LastCoverageResults.log

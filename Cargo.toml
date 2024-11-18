@@ -1,0 +1,52 @@
+[package]
+name = "pelite"
+version = "0.10.0"
+authors = ["Casper <CasualX@users.noreply.github.com>"]
+edition = "2018"
+license = "MIT"
+
+description = "Lightweight, memory-safe, zero-allocation library for reading and navigating PE binaries."
+documentation = "https://docs.rs/pelite/"
+repository = "https://github.com/CasualX/pelite"
+readme = "readme.md"
+keywords = ["exe", "dll", "mui", "bin", "pe"]
+categories = ["parser-implementations", "command-line-utilities"]
+exclude = ["tests/pocs/blob"]
+
+[workspace]
+members = [".", "./src/proc-macros", "./wasm"]
+
+[features]
+default = ["mmap", "derive_pod"]
+unsafe_alignment = []
+mmap = ["std", "libc", "winapi"]
+unstable = []
+derive_pod = ["dataview/derive_pod"]
+std = ["no-std-compat/std"]
+resources_nostd = ["hashbrown"]
+
+[badges]
+appveyor = { repository = "CasualX/pelite", branch = "master", service = "github" }
+travis-ci = { repository = "CasualX/pelite", branch = "master", service = "github" }
+maintenance = { status = "actively-developed" }
+
+[profile.release]
+lto = true
+opt-level = 2
+
+[package.metadata.docs.rs]
+all-features = true
+default-target = "x86_64-pc-windows-msvc"
+
+[dependencies]
+
+[target.'cfg(unix)'.dependencies]
+libc = { version = "0.2", optional = true }
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", optional = true, features = ["fileapi", "memoryapi", "handleapi"] }
+
+[dev-dependencies]
+rand = "0.5"
+lde = "0.3"
+format_xml = "0.2"
